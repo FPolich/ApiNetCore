@@ -44,7 +44,7 @@ namespace ApiNetCore.Controllers
                 return Ok(unaCancion);
             } else
             {
-                return StatusCode(402, "Id inexistente");
+                return StatusCode(404, "Id inexistente");
             }
         }
 
