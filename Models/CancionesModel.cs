@@ -58,6 +58,24 @@ namespace ApiNetCore.Models
             return cancionNueva;
         }
 
+        public static bool DeleteById (int IdABorrar)
+        {
+            MySqlCommand miComando = new MySqlCommand();
+            miComando.Connection = Util.getConnection();
+            miComando.CommandType = CommandType.Text;
+            miComando.CommandText = "delete from canciones where Id=@Id";
+            miComando.Parameters.AddWithValue("@Id", IdABorrar);
+
+            Cancion cancionABuscar = GetById(IdABorrar);
+
+            if (cancionABuscar == null)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }s
+        }
 
         public static Cancion getByTitulo (string TituloABuscar)
         {

@@ -12,6 +12,20 @@ namespace ApiNetCore.Controllers
     [Route("api/canciones")]
     public class CancionesController : ControllerBase 
     {
+        [HttpDelete]
+        public IActionResult Delete (int cancionABorrar)
+        {
+            bool cancionBorrada = CancionesModel.DeleteById(cancionABorrar);
+
+            if (cancionBorrada)
+            {
+                return Ok("Se borró con éxito");
+            } else
+            {
+                return StatusCode(404, "Error, no se borró el registro");
+            }
+        }
+
         [HttpPost]
         public IActionResult Create (Cancion CancionACrear)
         {
@@ -47,8 +61,6 @@ namespace ApiNetCore.Controllers
                 return StatusCode(404, "Id inexistente");
             }
         }
-
-
 
         [HttpGet]
         public IActionResult Get()
