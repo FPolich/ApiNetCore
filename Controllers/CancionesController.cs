@@ -12,7 +12,7 @@ namespace ApiNetCore.Controllers
     [Route("api/canciones")]
     public class CancionesController : ControllerBase 
     {
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete (int cancionABorrar)
         {
             bool cancionBorrada = CancionesModel.DeleteById(cancionABorrar);
@@ -23,6 +23,22 @@ namespace ApiNetCore.Controllers
             } else
             {
                 return StatusCode(404, "Error, no se borró el registro");
+            }
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Update(Cancion CancionACrear)
+        {
+            string Errores;
+            Cancion CancionCreada = CancionesModel.Update(CancionACrear, out Errores);
+
+            if (CancionCreada != null)
+            {
+                return Ok(CancionCreada);
+            }
+            else
+            {
+                return StatusCode(409, Errores);
             }
         }
 
@@ -39,14 +55,6 @@ namespace ApiNetCore.Controllers
             {
                 return StatusCode(409, Errores);
             }
-        }
-
-        [HttpGet("{yearFrom}/{YearTo}")]
-        public IActionResult GetById(int YearFrom, int YearTo)
-        {
-            List<Cancion> listaPorAnio = new List<Cancion>();
-
-            return Ok("Ok Anio desde " + YearFrom + " hasta " + YearTo);
         }
 
         [HttpGet("{id}")]
