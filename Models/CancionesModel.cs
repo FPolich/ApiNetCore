@@ -98,23 +98,16 @@ namespace ApiNetCore.Models
             MySqlCommand miComando = new MySqlCommand();
             miComando.Connection = Util.getConnection();
             miComando.CommandType = CommandType.Text;
-            miComando.CommandText = "delete from canciones where Id=@Id";
+            miComando.CommandText = "DELETE from canciones where Id=@Id";
             miComando.Parameters.AddWithValue("@Id", IdABorrar);
-            MySqlDataAdapter miAdaptador = new MySqlDataAdapter();
-            miAdaptador.SelectCommand = miComando;
 
-            Cancion cancionABuscar = new Cancion();
             try
             {
-                cancionABuscar = GetById(IdABorrar);
-                Console.WriteLine("para ver que trae " + cancionABuscar);
-                if (cancionABuscar == null)
-                {
-                    return true;
-                }
+                miComando.ExecuteNonQuery();
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine("ocurrio un error " + e);
                 return false;
             }
             return true;

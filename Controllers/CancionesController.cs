@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using static ApiNetCore.Models.CancionesModel;
 
 namespace ApiNetCore.Controllers
@@ -15,7 +13,7 @@ namespace ApiNetCore.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete (int cancionABorrar)
         {
-            bool cancionBorrada = CancionesModel.DeleteById(cancionABorrar);
+            bool cancionBorrada = DeleteById(cancionABorrar);
 
             if (cancionBorrada)
             {
