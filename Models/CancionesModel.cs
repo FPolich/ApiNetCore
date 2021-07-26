@@ -72,7 +72,8 @@ namespace ApiNetCore.Models
             MySqlCommand MiComando = new MySqlCommand();
             MiComando.Connection = Util.getConnection();
             MiComando.CommandType = CommandType.Text;
-            MiComando.CommandText = "insert into canciones (Id, Titulo, Genero, Autor, Lanzamiento, UrlLetra) values (@Id, @Titulo, @Genero, @Autor, @Lanzamiento, @UrlLetra)";
+            MiComando.CommandText = "update canciones set Id=@Id, Titulo=@Titulo, Genero=@Genero, Autor=@Autor, Lanzamiento=@Lanzamiento, UrlLetra=@UrlLetra where @Id=Id";
+            Console.WriteLine("muestro el id " + cancionNueva.Id);
             MiComando.Parameters.AddWithValue("@Id", cancionNueva.Id);
             MiComando.Parameters.AddWithValue("@Titulo", cancionNueva.Titulo);
             MiComando.Parameters.AddWithValue("@Genero", cancionNueva.Genero);
@@ -83,25 +84,10 @@ namespace ApiNetCore.Models
             try
             {
                 MiComando.ExecuteNonQuery();
-
-                MiComando.Parameters.Clear();
             }
             catch (MySqlException e)
             {
-                Console.WriteLine("Ocurrio un error - Codigo: " + e.Number);
-                if (e.Number == 1062)
-                {
-                    Fallas = "Registro no encontrado";
-                }
-                else
-                {
-                    Fallas = e.Message;
-                }
-                cancionNueva = null;
-            }
-            catch (SystemException e)
-            {
-                Console.WriteLine("Ocurrio un error - Codigo: " + e.Message);
+                Console.WriteLine("ocurrio un error " + e);
                 cancionNueva = null;
             }
             return cancionNueva;
@@ -117,17 +103,21 @@ namespace ApiNetCore.Models
             MySqlDataAdapter miAdaptador = new MySqlDataAdapter();
             miAdaptador.SelectCommand = miComando;
 
-
             Cancion cancionABuscar = new Cancion();
-            cancionABuscar = GetById(IdABorrar);
-            
-            if (cancionABuscar == null)
+            try
             {
-                return (true);
-            } else
+                cancionABuscar = GetById(IdABorrar);
+                Console.WriteLine("para ver que trae " + cancionABuscar);
+                if (cancionABuscar == null)
+                {
+                    return true;
+                }
+            }
+            catch (Exception)
             {
                 return false;
             }
+            return true;
         }
 
         public static Cancion getByTitulo (string TituloABuscar)

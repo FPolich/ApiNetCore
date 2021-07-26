@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/peliculas",
+      "launchUrl": "api/canciones",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,7 +20,7 @@
     "ApiNetCore": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/peliculas",
+      "launchUrl": "api/canciones",
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
