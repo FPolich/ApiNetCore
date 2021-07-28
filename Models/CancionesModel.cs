@@ -29,24 +29,16 @@ namespace ApiNetCore.Models
                 MiComando.ExecuteNonQuery();
                 try
                 {
-                MiComando.CommandText = "select max (id) as nuevo_id from canciones";
+                    MiComando.CommandText = "select max (id) as nuevo_id from canciones";
+                    cancionNueva.Id = (int)MiComando.ExecuteScalar();
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Ocurrio una excepcion: " + e);
+                    Console.WriteLine("Ocurrio una excepcion: " + e.Message);
                 }
+               
                 
-                MiComando.Parameters.Clear();
-                cancionNueva.Id = (int)MiComando.ExecuteScalar();
 
-                MySqlDataReader Lector = MiComando.ExecuteReader();
-
-                if (Lector.HasRows)
-                {
-                    while (Lector.Read())
-                    {
-                    }
-                }
             } catch (MySqlException e)
             {
                 Console.WriteLine("Ocurrio un error - Codigo: " + e.Number);
@@ -87,7 +79,7 @@ namespace ApiNetCore.Models
             }
             catch (MySqlException e)
             {
-                Console.WriteLine("ocurrio un error " + e);
+                Console.WriteLine("ocurrio un error " + e.Message);
                 cancionNueva = null;
             }
             return cancionNueva;
@@ -107,7 +99,7 @@ namespace ApiNetCore.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine("ocurrio un error " + e);
+                Console.WriteLine("ocurrio un error " + e.Message);
                 return false;
             }
             return true;
