@@ -41,9 +41,11 @@ namespace ApiNetCore
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .SetIsOriginAllowed(origin => true) // allow any origin
-                .AllowCredentials()); // allow credentials
-
+                .AllowCredentials()); //
             app.UseRouting();
+
+
+
 
             app.UseAuthorization();
 
