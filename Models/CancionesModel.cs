@@ -56,7 +56,7 @@ namespace ApiNetCore.Models
             return cancionNueva;
         }
 
-        public static Cancion Update(Cancion cancionNueva, out string Fallas)
+        public static Cancion Update(Cancion cancionNueva, int id, out string Fallas)
         {
             Fallas = "";
             MySqlCommand MiComando = new MySqlCommand();
@@ -64,7 +64,7 @@ namespace ApiNetCore.Models
             MiComando.CommandType = CommandType.Text;
             MiComando.CommandText = "update canciones set Id=@Id, Titulo=@Titulo, Genero=@Genero, Autor=@Autor, Lanzamiento=@Lanzamiento, UrlLetra=@UrlLetra where @Id=Id";
             Console.WriteLine("muestro el id " + cancionNueva.Id);
-            MiComando.Parameters.AddWithValue("@Id", cancionNueva.Id);
+            MiComando.Parameters.AddWithValue("@Id", id);
             MiComando.Parameters.AddWithValue("@Titulo", cancionNueva.Titulo);
             MiComando.Parameters.AddWithValue("@Genero", cancionNueva.Genero);
             MiComando.Parameters.AddWithValue("@Autor", cancionNueva.Autor);
@@ -95,6 +95,7 @@ namespace ApiNetCore.Models
             try
             {
                 miComando.ExecuteNonQuery();
+                miComando.Connection.Close();
             }
             catch (SystemException e)
             {
@@ -134,6 +135,36 @@ namespace ApiNetCore.Models
             return unaCancion;
         }
 
+        public static Cancion GetByTitle(string tituloABuscar)
+        {
+            MySqlCommand miComando = new MySqlCommand();
+            miComando.Connection = Util.getConnection();
+            miComando.CommandType = CommandType.Text;
+            miComando.CommandText = "Select * from canciones where Titulo=@Titulo";
+            miComando.Parameters.AddWithValue("@Titulo", tituloABuscar);
+
+            DataTable miTabla = new DataTable();
+            MySqlDataAdapter miAdaptador = new MySqlDataAdapter();
+            miAdaptador.SelectCommand = miComando;
+            miAdaptador.Fill(miTabla);
+
+            Cancion unaCancion = new Cancion();
+
+            if (miTabla.Rows.Count > 0)
+            {
+                unaCancion.Id = (int)miTabla.Rows[0]["Id"];
+                unaCancion.Titulo = tituloABuscar;
+                unaCancion.Genero = (string)miTabla.Rows[0]["Genero"];
+                unaCancion.Autor = (string)miTabla.Rows[0]["Autor"];
+                unaCancion.Lanzamiento = (int)miTabla.Rows[0]["Lanzamiento"];
+            }
+            else
+            {
+                unaCancion = null;
+            }
+            return unaCancion;
+        }
+
         public static Cancion GetById (int IdABuscar)
         {
             MySqlCommand miComando = new MySqlCommand();
@@ -160,7 +191,6 @@ namespace ApiNetCore.Models
             {
                 unaCancion = null;
             }
-
             return unaCancion;
         }
 

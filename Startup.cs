@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.OpenApi.Models;
 
 namespace ApiNetCore
 {
@@ -27,16 +26,22 @@ namespace ApiNetCore
         {
             services.AddControllers();
             services.AddCors();
+            services.AddSwaggerGen();
+
         }
+
+
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI( c=> {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "canciones api v1");
+                        });
             }
-
-            app.UseHttpsRedirection();
 
             app.UseCors(x => x
                 .AllowAnyMethod()
@@ -44,7 +49,10 @@ namespace ApiNetCore
                 .SetIsOriginAllowed(origin => true) // allow any origin
                 .AllowCredentials()); //
             app.UseRouting();
-            
+
+
+
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

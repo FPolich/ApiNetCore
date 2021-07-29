@@ -10,12 +10,12 @@ namespace ApiNetCore.Controllers
     [Route("api/canciones")]
     public class CancionesController : ControllerBase 
     {
-        [HttpDelete("/delete/{Id}")]
-        public IActionResult Delete (int cancionABorrar)
+        [HttpDelete("{id}")]
+        public IActionResult Delete (int id)
         {
-            bool cancionBorrada = DeleteById(cancionABorrar);
+            bool cancionBorrada = DeleteById(id);
 
-            if (cancionBorrada == true)
+            if (cancionBorrada)
             {
                 return Ok("Se borró con éxito");
             } else
@@ -25,11 +25,11 @@ namespace ApiNetCore.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(Cancion CancionACrear)
+        public IActionResult Update(Cancion CancionACrear, int id)
         {
             string Errores;
 
-            Cancion CancionCreada = CancionesModel.Update(CancionACrear, out Errores);
+            Cancion CancionCreada = CancionesModel.Update(CancionACrear, id,  out Errores);
 
             if (CancionCreada != null)
             {
@@ -54,6 +54,20 @@ namespace ApiNetCore.Controllers
             {
                 return StatusCode(409, Errores);
             }
+        }
+
+        [HttpGet("{titutlo}")]
+        public IActionResult GetByTitle (string titulo)
+        {
+            Cancion unaCancion = CancionesModel.GetByTitle(titulo);
+            if (unaCancion != null)
+            {
+                return Ok(unaCancion);
+            } else
+            {
+                return StatusCode(404, "Titulo inexistente");
+            }
+
         }
 
         [HttpGet("{id}")]
