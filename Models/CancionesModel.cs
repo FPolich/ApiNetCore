@@ -29,7 +29,7 @@ namespace ApiNetCore.Models
                 MiComando.ExecuteNonQuery();
                 try
                 {
-                    MiComando.CommandText = "select max (id) as nuevo_id from canciones";
+                    MiComando.CommandText = "select * from canciones where id = (select max(id) from canciones)";
                     cancionNueva.Id = (int)MiComando.ExecuteScalar();
                 }
                 catch (Exception e)
@@ -37,8 +37,6 @@ namespace ApiNetCore.Models
                     Console.WriteLine("Ocurrio una excepcion: " + e.Message);
                 }
                
-                
-
             } catch (MySqlException e)
             {
                 Console.WriteLine("Ocurrio un error - Codigo: " + e.Number);
@@ -90,19 +88,20 @@ namespace ApiNetCore.Models
             MySqlCommand miComando = new MySqlCommand();
             miComando.Connection = Util.getConnection();
             miComando.CommandType = CommandType.Text;
-            miComando.CommandText = "DELETE from canciones where Id=@Id";
-            miComando.Parameters.AddWithValue("@Id", IdABorrar);
+            miComando.CommandText = "delete from canciones where id=@id";
+            miComando.Parameters.AddWithValue("@id", IdABorrar);
 
+            bool check = true;
             try
             {
                 miComando.ExecuteNonQuery();
             }
-            catch (Exception e)
+            catch (SystemException e)
             {
                 Console.WriteLine("ocurrio un error " + e.Message);
-                return false;
+                check = false;
             }
-            return true;
+            return check;
         }
 
         public static Cancion getByTitulo (string TituloABuscar)

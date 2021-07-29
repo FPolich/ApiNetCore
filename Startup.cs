@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.OpenApi.Models;
 
 namespace ApiNetCore
 {
@@ -26,8 +27,6 @@ namespace ApiNetCore
         {
             services.AddControllers();
             services.AddCors();
-           
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -37,16 +36,15 @@ namespace ApiNetCore
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHttpsRedirection();
+
             app.UseCors(x => x
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .SetIsOriginAllowed(origin => true) // allow any origin
                 .AllowCredentials()); //
             app.UseRouting();
-
-
-
-
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

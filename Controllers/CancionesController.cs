@@ -10,12 +10,12 @@ namespace ApiNetCore.Controllers
     [Route("api/canciones")]
     public class CancionesController : ControllerBase 
     {
-        [HttpDelete("{id}")]
+        [HttpDelete("/delete/{Id}")]
         public IActionResult Delete (int cancionABorrar)
         {
             bool cancionBorrada = DeleteById(cancionABorrar);
 
-            if (cancionBorrada)
+            if (cancionBorrada == true)
             {
                 return Ok("Se borró con éxito");
             } else
