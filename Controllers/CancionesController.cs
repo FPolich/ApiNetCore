@@ -24,12 +24,12 @@ namespace ApiNetCore.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Update(Cancion CancionACrear, int id)
+        [HttpPut]
+        public IActionResult Update(Cancion cancion)
         {
             string Errores;
 
-            Cancion CancionCreada = CancionesModel.Update(CancionACrear, id,  out Errores);
+            Cancion CancionCreada = CancionesModel.Update(cancion,  out Errores);
 
             if (CancionCreada != null)
             {

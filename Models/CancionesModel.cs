@@ -56,7 +56,7 @@ namespace ApiNetCore.Models
             return cancionNueva;
         }
 
-        public static Cancion Update(Cancion cancionNueva, int id, out string Fallas)
+        public static Cancion Update(Cancion cancionNueva, out string Fallas)
         {
             Fallas = "";
             MySqlCommand MiComando = new MySqlCommand();
@@ -64,7 +64,7 @@ namespace ApiNetCore.Models
             MiComando.CommandType = CommandType.Text;
             MiComando.CommandText = "update canciones set Id=@Id, Titulo=@Titulo, Genero=@Genero, Autor=@Autor, Lanzamiento=@Lanzamiento, UrlLetra=@UrlLetra where @Id=Id";
             Console.WriteLine("muestro el id " + cancionNueva.Id);
-            MiComando.Parameters.AddWithValue("@Id", id);
+            MiComando.Parameters.AddWithValue("@Id", cancionNueva.Id);
             MiComando.Parameters.AddWithValue("@Titulo", cancionNueva.Titulo);
             MiComando.Parameters.AddWithValue("@Genero", cancionNueva.Genero);
             MiComando.Parameters.AddWithValue("@Autor", cancionNueva.Autor);
