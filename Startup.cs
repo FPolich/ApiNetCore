@@ -30,8 +30,6 @@ namespace ApiNetCore
 
         }
 
-
-
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -49,9 +47,6 @@ namespace ApiNetCore
                 .SetIsOriginAllowed(origin => true) // allow any origin
                 .AllowCredentials()); //
             app.UseRouting();
-
-
-
 
             app.UseAuthorization();
 

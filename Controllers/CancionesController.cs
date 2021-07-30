@@ -56,7 +56,7 @@ namespace ApiNetCore.Controllers
             }
         }
 
-        [HttpGet("{titutlo}")]
+        [HttpGet("{titulo}")]
         public IActionResult GetByTitle (string titulo)
         {
             Cancion unaCancion = CancionesModel.GetByTitle(titulo);
@@ -67,13 +67,12 @@ namespace ApiNetCore.Controllers
             {
                 return StatusCode(404, "Titulo inexistente");
             }
-
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById (int Id)
+        public IActionResult GetById (int id)
         {
-            Cancion unaCancion = CancionesModel.GetById(Id);
+            Cancion unaCancion = CancionesModel.GetById(id);
             if (unaCancion != null)
             {
                 return Ok(unaCancion);
